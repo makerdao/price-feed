@@ -5,38 +5,40 @@ import "ds-test/test.sol";
 import "./price.sol";
 
 contract DSPriceTest is DSTest {
-    Medianizer m;
-    DSPrice p1;
-    DSPrice p2;
-    DSPrice p3;
+    DSPrice p;
 
     function setUp() {
-        m = new Medianizer();
-        p1 = new DSPrice();
-        p2 = new DSPrice();
-        p3 = new DSPrice();
-        m.set(p1);
-        m.set(p2);
-        m.set(p3);
-        // p1.prod(1 ether, uint32(now) + 100);
-        // p2.prod(2 ether, uint32(now) + 100);
-        // p3.prod(3 ether, uint32(now) + 100);
-        p1.poke(1 ether);
-        p2.poke(2.5 ether);
-        p3.setMed(m);
+        p = new DSPrice();
     }
 
-    function testPoke() logs_gas {
-        //p2.prod(3 ether, uint32(now) + 100);
-        p3.poke(5 ether);
-        var (val, has) = m.peek();
-        assertEq(uint256(val), 2 ether);
+    function testInitial() {
+        var (val, has) = p.peek();
+        
+        assertEq(val, 0);
+        assert(!has);
+    }
+
+    function testPoke() {
+        p.poke(1 ether);
+        var (val, has) = p.peek();
+        assertEq(val, 1 ether);
         assert(has);
-        assert(false);
     }
 
-    // function testProd() logs_gas {
-    //     p1.prod(1 ether, uint32(now) + 10);
-    //     assert(false);
-    // }
+    function testProd() {
+        p.prod(2 ether, uint32(now) + 10);
+        assertEq(p.read(), 2 ether);
+    }
+    
+    function testVoid() {
+        p.poke(1 ether);
+        assertEq(p.read(), 1 ether);
+        p.void();
+        var (, has) = p.peek();
+        assert(!has);
+    }
+
+    function testFailInitialRead() {
+        p.read();
+    }
 }

@@ -1,6 +1,6 @@
 name            ds-price
-description     A newly-created dapp
-version         0.0.0
+description     price feed, with optional expiration and medianizer poke
+version         0.0.1
 
 author          nanexcool
 license         Apache-2.0
