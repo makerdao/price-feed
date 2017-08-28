@@ -18,23 +18,20 @@ contract DSPriceTest is DSTest {
         assert(!has);
     }
 
-    function testPoke() {
-        p.poke(1 ether);
-        var (val, has) = p.peek();
-        assertEq(val, 1 ether);
-        assert(has);
-    }
-
     function testProd() {
         p.prod(2 ether, uint32(now) + 10);
+        
         assertEq(p.read(), 2 ether);
     }
     
     function testVoid() {
-        p.poke(1 ether);
+        p.prod(1 ether, uint32(now) + 10);
+
         assertEq(p.read(), 1 ether);
+        
         p.void();
         var (, has) = p.peek();
+
         assert(!has);
     }
 

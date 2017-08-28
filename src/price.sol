@@ -17,14 +17,6 @@ contract DSPrice is DSThing {
 
     uint128 public val;
     uint32 public zzz;
-    address med;
-
-    function tell(address med_)
-        note
-        auth
-    {
-        med = med_;
-    }
 
     function peek()
         constant
@@ -40,19 +32,6 @@ contract DSPrice is DSThing {
         assert(now < zzz);
         return bytes32(val);
     }
-    
-    function poke(uint128 val_)
-        note
-        auth
-    {
-        val = val_;
-        if (zzz < uint32(-1)) {
-            zzz = uint32(-1);
-        }
-        if (med > 0x0) {
-            assert(med.call(bytes4(sha3("poke()"))));
-        }
-    }
 
     function prod(uint128 val_, uint32 zzz_)
         note
@@ -60,16 +39,18 @@ contract DSPrice is DSThing {
     {
         val = val_;
         zzz = zzz_;
-        if (med > 0x0) {
-            assert(med.call(bytes4(sha3("poke()"))));
-        }
+    }
+
+    function post(uint128 val_, uint32 zzz_, address med_) {
+        prod(val_,zzz_);
+        med_.call(bytes4(sha3("poke()")));
     }
 
     function void()
         note
         auth
     {
-        zzz = uint32(0);
+        zzz = 0;
     }
 
 }
