@@ -26,7 +26,7 @@ contract DSPriceTest is DSTest {
         var (val, has) = p.peek();
         
         assertEq(val, 0);
-        assert(!has);
+        assertTrue(!has);
     }
 
     function testPost() {
@@ -43,7 +43,7 @@ contract DSPriceTest is DSTest {
         p.void();
         var (, has) = p.peek();
 
-        assert(!has);
+        assertTrue(!has);
     }
     
     function testFailInitialRead() {
