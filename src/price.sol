@@ -15,7 +15,7 @@ import "ds-thing/thing.sol";
 
 contract DSPrice is DSThing {
 
-    uint128 public val;
+    uint128 val;
     uint32 public zzz;
 
     function peek()
