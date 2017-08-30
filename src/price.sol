@@ -1,4 +1,4 @@
-/// price feed, with optional expiration and medianizer poke
+/// price feed, with expiration and medianizer poke
 
 // Copyright (C) 2017  DappHub, LLC
 
@@ -33,16 +33,12 @@ contract DSPrice is DSThing {
         return bytes32(val);
     }
 
-    function prod(uint128 val_, uint32 zzz_)
+    function post(uint128 val_, uint32 zzz_, address med_)
         note
         auth
     {
         val = val_;
         zzz = zzz_;
-    }
-
-    function post(uint128 val_, uint32 zzz_, address med_) {
-        prod(val_,zzz_);
         med_.call(bytes4(sha3("poke()")));
     }
 
