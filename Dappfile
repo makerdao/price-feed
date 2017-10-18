@@ -1,4 +1,4 @@
-name            ds-price
+name            price-feed
 description     price feed, with expiration and medianizer poke
 version         0.0.1
 

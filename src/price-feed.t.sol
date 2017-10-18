@@ -2,29 +2,29 @@ pragma solidity ^0.4.15;
 
 import "ds-test/test.sol";
 
-import "./price.sol";
+import "./price-feed.sol";
 
 contract DSPriceTest is DSTest {
-    DSPrice p;
+    PriceFeed p;
 
-    function setUp() {
-        p = new DSPrice();
+    function setUp() public {
+        p = new PriceFeed();
     }
 
-    function testInitial() {
+    function testInitial() public {
         var (val, has) = p.peek();
         
         assertEq(val, 0);
         assertTrue(!has);
     }
 
-    function testPost() {
+    function testPost() public {
         p.post(2 ether, uint32(now) + 10, 0);
         
         assertEq(p.read(), 2 ether);
     }
     
-    function testVoid() {
+    function testVoid() public {
         p.post(1 ether, uint32(now) + 10, 0);
 
         assertEq(p.read(), 1 ether);
@@ -35,7 +35,7 @@ contract DSPriceTest is DSTest {
         assertTrue(!has);
     }
     
-    function testFailInitialRead() {
+    function testFailInitialRead() public view {
         p.read();
     }
 }
