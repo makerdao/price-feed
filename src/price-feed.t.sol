@@ -4,7 +4,7 @@ import "ds-test/test.sol";
 
 import "./price-feed.sol";
 
-contract DSPriceTest is DSTest {
+contract PriceFeedTest is DSTest {
     PriceFeed p;
 
     function setUp() public {
