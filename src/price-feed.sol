@@ -31,6 +31,12 @@ contract PriceFeed is DSThing {
         return bytes32(val);
     }
 
+    function poke(uint128 val_, uint32 zzz_) public note auth
+    {
+        val = val_;
+        zzz = zzz_;
+    }
+
     function post(uint128 val_, uint32 zzz_, address med_) public note auth
     {
         val = val_;
