@@ -31,7 +31,7 @@ contract PriceFeedTest is DSTest {
     }
     
     function testVoid() public {
-        p.post(1 ether, uint32(now) + 10, 0);
+        p.poke(1 ether, uint32(now) + 10);
 
         assertEq(p.read(), 1 ether);
         
