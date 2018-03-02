@@ -1,6 +1,0 @@
-name            price-feed
-description     price feed, with expiration and medianizer poke
-version         0.0.1
-
-author          nanexcool
-license         Apache-2.0
