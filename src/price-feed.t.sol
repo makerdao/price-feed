@@ -15,21 +15,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.20;
 
 import "ds-test/test.sol";
 
 import "./price-feed.sol";
 
+contract MedianizerTest is Medianizer {
+    uint128     val;
+    bool public has;
+    function poke() external {
+        val = 1;
+        has = true;
+    }
+}
+
 contract PriceFeedTest is DSTest {
     PriceFeed p;
+    MedianizerTest m;
 
     function setUp() public {
         p = new PriceFeed();
+        m = new MedianizerTest();
     }
 
     function testInitial() public {
-        bytes32 val; bool has;
+        bytes32 val;
+        bool has;
         (val, has) = p.peek();
         
         assertEq(val, 0);
@@ -43,7 +55,7 @@ contract PriceFeedTest is DSTest {
     }
 
     function testPost() public {
-        p.post(2 ether, uint32(now) + 10, 0);
+        p.post(2 ether, uint32(now) + 10, m);
         
         assertEq(p.read(), 2 ether);
     }

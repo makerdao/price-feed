@@ -1,4 +1,4 @@
-/// price-feed.sol - ds-cache like thing that pokes another ds-value on poke
+/// price-feed.sol - ds-value like that also pokes a medianizer
 
 // Copyright (C) 2017, 2018  DappHub, LLC
 
@@ -15,43 +15,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.20;
 
 import "ds-thing/thing.sol";
 
+interface Medianizer {
+    function poke() external;
+}
+
 contract PriceFeed is DSThing {
 
-    uint128 val;
+    uint128       val;
     uint32 public zzz;
 
-    function peek() public view
-        returns (bytes32,bool)
+    function peek() external view returns (bytes32,bool)
     {
         return (bytes32(val), now < zzz);
     }
 
-    function read() public view
-        returns (bytes32)
+    function read() external view returns (bytes32)
     {
-        assert(now < zzz);
+        require(now < zzz);
         return bytes32(val);
     }
 
-    function poke(uint128 val_, uint32 zzz_) public note auth
+    function poke(uint128 val_, uint32 zzz_) external note auth
     {
         val = val_;
         zzz = zzz_;
     }
 
-    function post(uint128 val_, uint32 zzz_, address med_) public note auth
+    function post(uint128 val_, uint32 zzz_, Medianizer med_) external note auth
     {
         val = val_;
         zzz = zzz_;
-        bool ret = med_.call(bytes4(keccak256("poke()")));
-        ret;
+        med_.poke();
     }
 
-    function void() public note auth
+    function void() external note auth
     {
         zzz = 0;
     }
