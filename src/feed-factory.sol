@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.23;
 
 import "./price-feed.sol";
 
@@ -25,7 +25,7 @@ contract FeedFactory {
 
     function create() public returns (PriceFeed) {
         PriceFeed feed = new PriceFeed();
-        Created(msg.sender, address(feed));
+        emit Created(msg.sender, address(feed));
         feed.setOwner(msg.sender);
         isFeed[feed] = true;
         return feed;
